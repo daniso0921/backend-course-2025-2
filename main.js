@@ -1,4 +1,3 @@
-// main.js
 const { URL, URLSearchParams } = require('url');
 
 // Базова адреса
@@ -8,15 +7,22 @@ const base = "https://bank.gov.ua/NBUStatService/v1/statdirectory/inflation";
 const date = "202302";      // лютий 2023
 const time_period = "m";    // місяць
 
-// Створюємо URL-об'єкт
+// Створюємо URL
 const url = new URL(base);
-
-// Додаємо параметри через URLSearchParams
 url.search = new URLSearchParams({
     date: date,
     period: time_period,
     json: ""   // ключ без значення
 });
 
-// Виводимо результат у консоль
-console.log(url.toString());
+// Виводимо URL
+console.log("URL:", url.toString());
+
+// Виконуємо запит
+fetch(url.toString())
+    .then(res => res.json())
+    .then(data => {
+        console.log("Дані з НБУ:");
+        console.log(data);
+    })
+    .catch(err => console.error("Помилка:", err));
